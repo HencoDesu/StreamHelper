@@ -1,0 +1,71 @@
+﻿@using StreamHelper.Core.Providers
+@using StreamHelper.Integrations.Twitch.Data
+@inherits BaseComponent
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+
+@inject IProvider<AuthInfo> AuthInfoProvider
+
+<MudThemeProvider IsDarkMode="true"/>
+<MudDialogProvider/>
+<MudSnackbarProvider/>
+
+<MudLayout>
+    <MudAppBar Elevation="1">
+        <MudSpacer/>
+
+        @if (CurrentUser is not null)
+        {
+            <MudText Class="pa-4">@AuthInfo.DisplayName</MudText>
+            <MudAvatar Image="@AuthInfo.ProfileImage"/>
+            <MudIconButton @onclick="LogOut" Icon="@Icons.Filled.Logout" aria-label="logout"/>
+        }
+        else
+        {
+            <MudIconButton @onclick="OpenLogInDialog" Icon="@Icons.Filled.Login" aria-label="login"/>
+        }
+    </MudAppBar>
+
+    <MudDrawer Open="true" Elevation="2">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h5" Class="mt-1">StreamHelper</MudText>
+        </MudDrawerHeader>
+
+        <NavMenu/>
+    </MudDrawer>
+
+    <MudMainContent Class="pt-3">
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private AuthInfo AuthInfo { get; set; } = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        if (CurrentUser is null)
+        {
+            return;
+        }
+        
+        AuthInfo = await AuthInfoProvider.Get(CurrentUser);
+    }
+
+    private void OpenLogInDialog()
+    {
+        var options = new DialogOptions
+        {
+            Position = DialogPosition.TopCenter
+        };
+        DialogService.Show<LogInDialog>("Авторизация", options);
+    }
+
+    private void LogOut()
+    {
+        NavigationManager.NavigateTo($"./ExternalAuth/LogOut", true);
+    }
+
+}

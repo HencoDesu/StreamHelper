@@ -1,0 +1,18 @@
+﻿@inherits BaseComponent
+
+<MudNavMenu>
+    <MudNavLink Href="/" Match="NavLinkMatch.All">Главная</MudNavLink>
+
+    @if (CurrentUser is not null)
+    {
+        <MudNavGroup Href="/" Expanded="true" Match="NavLinkMatch.All" Title="Музыка">
+            <MudNavLink Href="/" Match="NavLinkMatch.All">Воспроизвдение</MudNavLink>
+            <MudNavLink Href="/Music/Settings" Match="NavLinkMatch.All">Настройки</MudNavLink>
+        </MudNavGroup>
+    }
+
+</MudNavMenu>
+
+@code
+{
+}

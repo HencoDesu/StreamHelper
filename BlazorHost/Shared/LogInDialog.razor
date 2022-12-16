@@ -1,0 +1,25 @@
+﻿@using AspNet.Security.OAuth.Twitch
+@inject NavigationManager NavigationManager
+
+<MudDialog>
+    <DialogContent>
+        <MudContainer Class="d-flex justify-center align-center">
+            <MudIconButton Icon="@CustomIcons.Twitch" OnClick="TwitchAuth" aria-label="Twitch" Class="rounded-circle twitch"/>
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Отмена</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = null!;
+
+    private void TwitchAuth()
+    {
+        NavigationManager.NavigateTo($"./ExternalAuth/{TwitchAuthenticationDefaults.DisplayName}", true);
+    }
+    
+    private void Cancel() => MudDialog.Cancel();
+}
