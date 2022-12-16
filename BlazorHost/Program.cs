@@ -7,9 +7,9 @@ using MudBlazor.Services;
 using Serilog;
 using Serilog.Events;
 using StreamHelper.Core.Auth;
-using StreamHelper.Core.SongRequests;
 using StreamHelper.Integrations.Twitch;
-using StreamHelper.Integrations.Twitch.Extensions;
+using StreamHelper.Integrations.Twitch.Abstractions.Extensions;
+using StreamHelper.Integrations.Youtube;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,7 +20,7 @@ Log.Logger = new LoggerConfiguration()
              .Filter.ByExcluding(logEvent => logEvent.Exception is OperationCanceledException)
              .Filter.ByExcluding(logEvent => logEvent.MessageTemplate.Text.Contains("System.OperationCanceledException"))
              .Enrich.FromLogContext()
-             .WriteTo.Console()
+             .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3} {SourceContext:l}] {Message:lj}{NewLine}{Exception}")
              .CreateLogger();
 
 builder.Host
@@ -29,7 +29,7 @@ builder.Host
        .ConfigureContainer<ContainerBuilder>(b =>
        {
            b.RegisterModule(new TwitchIntegrationAutofacModule(builder.Configuration))
-            .RegisterModule(new SongRequestsAutofacModule(builder.Configuration))
+            .RegisterModule(new YouTubeIntegrationAutofacModule(builder.Configuration))
             .RegisterModule(new HostAutoFacModule(builder.Configuration));
        });
 

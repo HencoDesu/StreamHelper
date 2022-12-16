@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.Extensions.Logging;
+using StreamHelper.Integrations.Twitch.Abstractions.Factories;
 using StreamHelper.Integrations.Twitch.Data;
 using TwitchLib.Api;
 using TwitchLib.Api.Interfaces;

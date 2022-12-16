@@ -43,15 +43,6 @@ public class IdentityProvider
     public Task<string?> GetToken(User user, LoginProvider loginProvider, TokenType tokenType) 
         => _userManager.GetAuthenticationTokenAsync(user, loginProvider, tokenType);
 
-    public async Task StoreTokens(User user, LoginProvider loginProvider, IEnumerable<AuthenticationToken> tokens)
-    {
-        foreach (var token in tokens)
-        {
-            await StoreToken(user, loginProvider, token);
-        }
-    }
-
-
-    public Task StoreToken(User user, LoginProvider loginProvider, AuthenticationToken token)
-        => _userManager.SetAuthenticationTokenAsync(user, loginProvider, token.Name, token.Value);
+    public Task StoreToken(User user, LoginProvider loginProvider, TokenType tokenType, string tokenValue)
+        => _userManager.SetAuthenticationTokenAsync(user, loginProvider, tokenType, tokenValue);
 }

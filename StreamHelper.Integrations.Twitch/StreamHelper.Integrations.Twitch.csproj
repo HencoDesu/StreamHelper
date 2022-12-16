@@ -13,8 +13,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\StreamHelper.Core.SongRequests\StreamHelper.Core.SongRequests.csproj" />
       <ProjectReference Include="..\StreamHelper.Core\StreamHelper.Core.csproj" />
+      <ProjectReference Include="..\StreamHelper.Integrations.Twitch.Abstractions\StreamHelper.Integrations.Twitch.Abstractions.csproj" />
     </ItemGroup>
 
     <ItemGroup>

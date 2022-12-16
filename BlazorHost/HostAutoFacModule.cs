@@ -15,6 +15,8 @@ public class HostAutoFacModule : AutofacModuleBase
 
     protected override void Load(ContainerBuilder builder)
     {
+        base.Load(builder);
+        
         builder.RegisterType<AuthStateProvider>()
                .As<AuthenticationStateProvider>()
                .As<IAuthProvider>()

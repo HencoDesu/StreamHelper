@@ -14,7 +14,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{4F688D7F-F
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamHelper.Core", "StreamHelper.Core\StreamHelper.Core.csproj", "{50A7E691-25DC-4E8B-90B2-06D6A96AC0F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamHelper.Core.SongRequests", "StreamHelper.Core.SongRequests\StreamHelper.Core.SongRequests.csproj", "{26D61A20-2872-42AE-BB15-29844EF8113C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamHelper.Integrations.Twitch.Abstractions", "StreamHelper.Integrations.Twitch.Abstractions\StreamHelper.Integrations.Twitch.Abstractions.csproj", "{C1BADA14-6DF6-42AC-8BEA-E3F10E2BB50C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamHelper.Integrations.Youtube", "StreamHelper.Integrations.Youtube\StreamHelper.Integrations.Youtube.csproj", "{BBE79F9F-FD5B-419D-A0C4-888203871941}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Youtube", "Youtube", "{0E98904B-933A-4638-9943-CFEB4A6A7D71}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamHelper.Integrations.Youtube.Abstractions", "StreamHelper.Integrations.Youtube.Abstractions\StreamHelper.Integrations.Youtube.Abstractions.csproj", "{9CBEE28A-9746-4D30-ABF6-4C10A09C7181}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamHelper.Integrations.Youtube.Tests", "StreamHelper.Integrations.Youtube.Tests\StreamHelper.Integrations.Youtube.Tests.csproj", "{8835EBC3-4DBC-4D29-ABD5-75984291FAA9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,7 +34,11 @@ Global
 		{FB4ED126-9022-4185-A7C7-DDE3C974D3F3} = {CA2A7C98-C0C5-4B10-904C-1DD507643CD7}
 		{55182F65-8669-4696-A354-5BE19FF48A2C} = {FB4ED126-9022-4185-A7C7-DDE3C974D3F3}
 		{50A7E691-25DC-4E8B-90B2-06D6A96AC0F7} = {4F688D7F-FB1B-471C-8AEC-49F09988E191}
-		{26D61A20-2872-42AE-BB15-29844EF8113C} = {4F688D7F-FB1B-471C-8AEC-49F09988E191}
+		{C1BADA14-6DF6-42AC-8BEA-E3F10E2BB50C} = {FB4ED126-9022-4185-A7C7-DDE3C974D3F3}
+		{0E98904B-933A-4638-9943-CFEB4A6A7D71} = {CA2A7C98-C0C5-4B10-904C-1DD507643CD7}
+		{BBE79F9F-FD5B-419D-A0C4-888203871941} = {0E98904B-933A-4638-9943-CFEB4A6A7D71}
+		{9CBEE28A-9746-4D30-ABF6-4C10A09C7181} = {0E98904B-933A-4638-9943-CFEB4A6A7D71}
+		{8835EBC3-4DBC-4D29-ABD5-75984291FAA9} = {0E98904B-933A-4638-9943-CFEB4A6A7D71}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{569355C1-5FFE-44F8-A42C-2C55CEA2D2B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -41,9 +53,21 @@ Global
 		{50A7E691-25DC-4E8B-90B2-06D6A96AC0F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50A7E691-25DC-4E8B-90B2-06D6A96AC0F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50A7E691-25DC-4E8B-90B2-06D6A96AC0F7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26D61A20-2872-42AE-BB15-29844EF8113C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26D61A20-2872-42AE-BB15-29844EF8113C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26D61A20-2872-42AE-BB15-29844EF8113C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26D61A20-2872-42AE-BB15-29844EF8113C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1BADA14-6DF6-42AC-8BEA-E3F10E2BB50C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1BADA14-6DF6-42AC-8BEA-E3F10E2BB50C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1BADA14-6DF6-42AC-8BEA-E3F10E2BB50C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1BADA14-6DF6-42AC-8BEA-E3F10E2BB50C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBE79F9F-FD5B-419D-A0C4-888203871941}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBE79F9F-FD5B-419D-A0C4-888203871941}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBE79F9F-FD5B-419D-A0C4-888203871941}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBE79F9F-FD5B-419D-A0C4-888203871941}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CBEE28A-9746-4D30-ABF6-4C10A09C7181}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CBEE28A-9746-4D30-ABF6-4C10A09C7181}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CBEE28A-9746-4D30-ABF6-4C10A09C7181}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CBEE28A-9746-4D30-ABF6-4C10A09C7181}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8835EBC3-4DBC-4D29-ABD5-75984291FAA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8835EBC3-4DBC-4D29-ABD5-75984291FAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8835EBC3-4DBC-4D29-ABD5-75984291FAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8835EBC3-4DBC-4D29-ABD5-75984291FAA9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

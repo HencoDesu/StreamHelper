@@ -1,0 +1,103 @@
+﻿@page "/Music/Settings"
+@using TwitchLib.Api.Helix.Models.ChannelPoints
+@inherits BaseComponent
+
+@implements IDisposable
+
+<PageTitle>StreamHelper - Настройки музыки</PageTitle>
+
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+    <MudGrid>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;">
+                <MudText Align="Align.Center" Typo="Typo.h6">Основные настройки:</MudText>
+                <MudDivider DividerType="DividerType.Middle" Class="mb-3"/>
+
+                <MudPaper Elevation="4" Class="pa-4" Style="width: 185px; height: 125px;">
+                    <MudText Align="Align.Center">PubSub-сервис:</MudText>
+
+                    <MudButton Variant="Variant.Filled"
+                               Color="GetConnectionStatusColor()"
+                               OnClick="ChangePubSubServiceState"
+                               Size="Size.Large"
+                               Class="mb-3"
+                               Style="width: 150px; height: 75px;">
+                        @GetConnectionStatusText()
+                    </MudButton>
+                </MudPaper>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;">
+                <MudText Align="Align.Center" Typo="Typo.h6">Настройки наград:</MudText>
+                <MudDivider DividerType="DividerType.Middle" Class="mb-3"/>
+
+                <MudItem Class="d-inline">
+                    <MudSelect T="CustomReward"
+                               Label="Заказ трека"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Value="CurrentSongReward"
+                               ValueChanged="OnSongRewardChanged">
+                        @foreach (var reward in SongRewards)
+                        {
+                            <MudSelectItem T="CustomReward" Value="@reward">@reward.Title</MudSelectItem>
+                        }
+                    </MudSelect>
+                    
+                    <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Primary" OnClick="CreateSongReward"/>
+                </MudItem>
+
+                <MudItem Class="d-inline">
+                    <MudSelect T="CustomReward"
+                               Label="Пропуск трека"
+                               AnchorOrigin="Origin.BottomCenter"
+                               Value="CurrentSkipReward"
+                               ValueChanged="OnSkipRewardChanged">
+                        @foreach (var reward in SkipRewards)
+                        {
+                            <MudSelectItem T="CustomReward" Value="@reward">@reward.Title</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+
+
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="12" md="4">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 200px;"></MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 600px;">
+                <MudText Align="Align.Center" Typo="Typo.h6">Ограничение заказов:</MudText>
+                <MudDivider DividerType="DividerType.Middle" Class="mb-3"/>
+
+                <MudNumericField HideSpinButtons="true" @bind-value="SongRequestConfiguration.SongMaxLengthInMinutes" Label="Ограничение по длине трека (мин)" Variant="Variant.Filled" Min="1"/>
+
+                <MudTextField T="string"
+                              Class="mt-3"
+                              Label="Черный список"
+                              HelperText="Список слов через запятую. Треки в названии которых есть эти слова не будут воспроизведены, а баллы за заказ будут возвращены"
+                              Variant="Variant.Outlined"
+                              @bind-Text="SongRequestConfiguration.Blacklist"
+                              Lines="20"/>
+            </MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 100%">
+                <MudText Align="Align.Center" Typo="Typo.h6">История заказов:</MudText>
+                <MudDivider DividerType="DividerType.Middle" Class="mb-3"/>
+
+                @foreach (var request in RequestHistory.History.Reverse())
+                {
+                    <MudPaper Elevation="4" Class="pa-4 mb-2" Style="height: 50px;">
+                        <MudText Typo="Typo.body1">@request.RequestTime.ToShortTimeString(): @request.RequesterName заказал @request.SongAuthor - @request.SongName</MudText>
+                    </MudPaper>
+                }
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>

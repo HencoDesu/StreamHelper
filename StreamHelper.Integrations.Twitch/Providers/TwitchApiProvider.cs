@@ -7,7 +7,7 @@ using TwitchLib.Api.Interfaces;
 namespace StreamHelper.Integrations.Twitch.Providers;
 
 public class TwitchApiProvider 
-    : ProviderBase<ITwitchAPI>
+    : IProvider<ITwitchAPI>
 {
     private readonly IProvider<AuthInfo> _authInfoProvider;
     private readonly IFactory<AuthInfo, ITwitchAPI> _twitchApiFactory;
@@ -20,10 +20,7 @@ public class TwitchApiProvider
         _authInfoProvider = authInfoProvider;
     }
 
-    public override Task<ITwitchAPI> Get(User user) 
-        => CreateNew(user);
-
-    protected override async Task<ITwitchAPI> CreateNew(User user)
+    public async Task<ITwitchAPI> Get(User user)
     {
         var authInfo = await _authInfoProvider.Get(user);
         return _twitchApiFactory.Create(authInfo);

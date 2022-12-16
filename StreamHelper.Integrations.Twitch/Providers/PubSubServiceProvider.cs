@@ -2,8 +2,9 @@
 using Microsoft.Extensions.Logging;
 using StreamHelper.Core.Auth;
 using StreamHelper.Core.Providers;
+using StreamHelper.Integrations.Twitch.Abstractions.Services;
 using StreamHelper.Integrations.Twitch.Data;
-using StreamHelper.Integrations.Twitch.PubSub;
+using StreamHelper.Integrations.Twitch.Services;
 using TwitchLib.PubSub;
 
 namespace StreamHelper.Integrations.Twitch.Providers;
@@ -25,8 +26,9 @@ public class PubSubServiceProvider
 
     protected override async Task<IPubSubService> CreateNew(User user)
     {
-        var pubSub = new TwitchPubSub(_loggerFactory.CreateLogger<TwitchPubSub>());
         var authInfo = await _authInfoProvider.Get(user);
-        return new PubSubService(pubSub, _loggerFactory.CreateLogger<PubSubService>(), authInfo);
+        var logger = _loggerFactory.CreateLogger<PubSubService>();
+        
+        return new PubSubService(logger, authInfo);
     }
 }

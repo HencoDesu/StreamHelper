@@ -2,8 +2,10 @@
 using StreamHelper.Core.Auth;
 using StreamHelper.Core.Extensions;
 using StreamHelper.Core.Providers;
+using StreamHelper.Integrations.Twitch.Abstractions;
+using StreamHelper.Integrations.Twitch.Abstractions.Data;
+using StreamHelper.Integrations.Twitch.Abstractions.Extensions;
 using StreamHelper.Integrations.Twitch.Data;
-using StreamHelper.Integrations.Twitch.Extensions;
 using TwitchLib.Api.Interfaces;
 
 namespace StreamHelper.Integrations.Twitch.Providers;
@@ -34,7 +36,7 @@ public class AuthInfoProvider
         var authInfo = await base.Get(user);
         if (authInfo.AccessToken == AccessToken.Default || authInfo.AccessTokenExpired)
         {
-            authInfo = await UpdateAuthInfo(authInfo);
+            authInfo = await UpdateAuthInfo(user, authInfo);
         }
 
         return authInfo;
@@ -60,15 +62,20 @@ public class AuthInfoProvider
         };
     }
 
-    private async Task<AuthInfo> UpdateAuthInfo(AuthInfo oldAuthInfo)
+    private async Task<AuthInfo> UpdateAuthInfo(User user, AuthInfo oldAuthInfo)
     {
         var twitchResponse = await _tokenRefresher.RefreshAccessToken(oldAuthInfo.RefreshToken);
+        var expiresAt = DateTime.UtcNow + twitchResponse.ExpiresIn.Seconds();
+
+        await _tokenProvider.StoreToken(user, Constants.LoginProvider, Constants.AccessToken, twitchResponse.AccessToken);
+        await _tokenProvider.StoreToken(user, Constants.LoginProvider, Constants.RefreshToken, twitchResponse.RefreshToken);
+        await _tokenProvider.StoreToken(user, Constants.LoginProvider, Constants.ExpiresAt, expiresAt.ToString());
 
         return oldAuthInfo with
         {
             AccessToken = twitchResponse.AccessToken,
             RefreshToken = twitchResponse.RefreshToken,
-            ExpiresAt = DateTime.UtcNow + twitchResponse.ExpiresIn.Seconds()
+            ExpiresAt = expiresAt
         };
     }
 }
